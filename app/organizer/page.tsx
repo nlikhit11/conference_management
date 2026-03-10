@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { DashboardLayout } from '@/components/dashboard-layout';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { AlertCircle, Calendar, Users, Clock, TrendingUp, ArrowRight } from 'lucide-react';
+import { AlertCircle, Calendar, Users, Clock, TrendingUp, ArrowRight, Settings, UserCheck } from 'lucide-react';
 
 const alerts = [
   {
@@ -39,6 +39,7 @@ const upcomingEvents = [
     speakers: 12,
     status: 'pending_approval',
     progress: 75,
+    eventStatus: 'upcoming',
   },
   {
     id: 2,
@@ -48,6 +49,7 @@ const upcomingEvents = [
     speakers: 8,
     status: 'pending_approval',
     progress: 60,
+    eventStatus: 'upcoming',
   },
   {
     id: 3,
@@ -57,6 +59,7 @@ const upcomingEvents = [
     speakers: 6,
     status: 'approved',
     progress: 90,
+    eventStatus: 'upcoming',
   },
 ];
 
@@ -138,7 +141,14 @@ export default function OrganizerDashboard() {
 
         {/* Upcoming Events */}
         <div>
-          <h2 className="text-lg font-semibold text-slate-900 mb-4">Upcoming Events</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-slate-900">Upcoming Events</h2>
+            <Link href="/organizer/events">
+              <Button variant="outline" size="sm">
+                View All Events
+              </Button>
+            </Link>
+          </div>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {upcomingEvents.map((event) => (
               <Card key={event.id} className="p-6 border-slate-200 hover:shadow-lg transition-shadow">
@@ -147,13 +157,18 @@ export default function OrganizerDashboard() {
                     <h3 className="text-lg font-semibold text-slate-900">{event.title}</h3>
                     <p className="text-sm text-slate-600 mt-1">{event.date}</p>
                   </div>
-                  <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                    event.status === 'approved'
-                      ? 'bg-green-100 text-green-800'
-                      : 'bg-yellow-100 text-yellow-800'
-                  }`}>
-                    {event.status === 'approved' ? 'Approved' : 'Pending'}
-                  </span>
+                  <div className="flex flex-col items-end gap-1">
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                      event.status === 'approved'
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {event.status === 'approved' ? 'Approved' : 'Pending'}
+                    </span>
+                    <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      {event.eventStatus.charAt(0).toUpperCase() + event.eventStatus.slice(1)}
+                    </span>
+                  </div>
                 </div>
 
                 <div className="space-y-3 mb-4">
@@ -183,13 +198,15 @@ export default function OrganizerDashboard() {
                 </div>
 
                 <div className="flex gap-2 pt-4 border-t border-slate-200">
-                  <Link href={`/organizer/events/${event.id}`} className="flex-1">
-                    <Button variant="outline" className="w-full">
-                      Manage <ArrowRight className="w-4 h-4 ml-2" />
+                  <Link href="/organizer/events" className="flex-1">
+                    <Button variant="outline" className="w-full gap-2">
+                      <Settings className="w-4 h-4" />
+                      Manage
                     </Button>
                   </Link>
-                  <Link href={`/organizer/events/${event.id}/speakers`} className="flex-1">
-                    <Button variant="ghost" className="w-full">
+                  <Link href="/organizer/speakers" className="flex-1">
+                    <Button variant="ghost" className="w-full gap-2">
+                      <UserCheck className="w-4 h-4" />
                       Speakers
                     </Button>
                   </Link>
@@ -198,6 +215,37 @@ export default function OrganizerDashboard() {
             ))}
           </div>
         </div>
+
+        {/* Quick Actions */}
+        <Card className="p-6 border-slate-200">
+          <h2 className="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Link href="/organizer/attendees">
+              <Button variant="outline" className="w-full h-auto py-4 flex-col gap-2">
+                <Users className="w-5 h-5" />
+                <span className="text-sm">Manage Attendees</span>
+              </Button>
+            </Link>
+            <Link href="/organizer/speakers">
+              <Button variant="outline" className="w-full h-auto py-4 flex-col gap-2">
+                <UserCheck className="w-5 h-5" />
+                <span className="text-sm">Manage Speakers</span>
+              </Button>
+            </Link>
+            <Link href="/organizer/queries">
+              <Button variant="outline" className="w-full h-auto py-4 flex-col gap-2">
+                <AlertCircle className="w-5 h-5" />
+                <span className="text-sm">View Queries</span>
+              </Button>
+            </Link>
+            <Link href="/organizer/goodies">
+              <Button variant="outline" className="w-full h-auto py-4 flex-col gap-2">
+                <TrendingUp className="w-5 h-5" />
+                <span className="text-sm">Request Goodies</span>
+              </Button>
+            </Link>
+          </div>
+        </Card>
       </div>
     </DashboardLayout>
   );
