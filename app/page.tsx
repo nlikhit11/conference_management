@@ -141,7 +141,7 @@ export default function LandingPage() {
               All-in-one platform for event planning, speaker management, attendee registration, and real-time check-in. Streamline your conference workflow with powerful tools designed for organizers, speakers, and attendees.
             </p>
             <div className="flex gap-4">
-              <Link href="/attendee/conferences">
+              <Link href="/conferences">
                 <Button size="lg" className="gap-2">
                   View Conferences <ArrowRight className="w-4 h-4" />
                 </Button>
@@ -237,7 +237,7 @@ export default function LandingPage() {
         </div>
 
         <div className="text-center mt-12">
-          <Link href="/attendee/conferences">
+          <Link href="/conferences">
             <Button variant="outline" size="lg" className="gap-2">
               View All Conferences <ChevronRight className="w-4 h-4" />
             </Button>
@@ -326,7 +326,7 @@ export default function LandingPage() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/attendee/conferences" className="text-slate-400 hover:text-white transition-colors">
+                  <Link href="/conferences" className="text-slate-400 hover:text-white transition-colors">
                     Browse Conferences
                   </Link>
                 </li>
